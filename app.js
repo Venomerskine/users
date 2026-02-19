@@ -1,4 +1,4 @@
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
 require('dotenv').config()
 const path = require("node:path");
 const { Pool } = require("pg");
@@ -69,9 +69,12 @@ passport.use(
       if (!user) {
         return done(null, false, { message: "Incorrect username" });
       }
-      if (user.password !== password) {
-        return done(null, false, { message: "Incorrect password" });
-      }
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+
+    return done(null, false, { message: "Incorrect password" })
+    }
+
       return done(null, user);
     } catch(err) {
       return done(err);
