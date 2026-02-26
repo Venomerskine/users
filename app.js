@@ -98,6 +98,16 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
+app.use(session({
+  secret:'some secret',
+  resave: false,
+  saveUninitialized: true,
+  store: sessionStorage,
+  cookie: {
+    maxAge: 1000 * 60 * 24
+  }
+}))
+
 
 app.listen(3000, (error) => {
   if (error) {
